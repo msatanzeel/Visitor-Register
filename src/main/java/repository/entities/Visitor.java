@@ -2,10 +2,6 @@ package repository.entities;
 import javax.persistence.*;
 import java.util.Date;
 
-enum VisitorType {
-    EMPLOYEE, CONTRACTOR, CLIENT, OTHER
-}
-
 @Entity
 @Table(name = "visitor_table")
 public class Visitor {
