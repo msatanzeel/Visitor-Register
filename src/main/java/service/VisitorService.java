@@ -10,7 +10,7 @@ public interface VisitorService {
 
     int addVisitor(Visitor Visitor);
 
-    void updateVisitor(Visitor Visitor);
+    Boolean updateVisitor(Visitor Visitor);
 
     void deleteVisitor(int visitorId);
 

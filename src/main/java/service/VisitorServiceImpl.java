@@ -18,8 +18,8 @@ public class VisitorServiceImpl implements VisitorService{
     }
 
     @Override
-    public void updateVisitor(Visitor Visitor) {
-
+    public Boolean updateVisitor(Visitor Visitor) {
+        return true;
     }
 
     @Override
