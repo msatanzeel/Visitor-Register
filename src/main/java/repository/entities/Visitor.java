@@ -24,13 +24,13 @@ public class Visitor {
     @Column(name = "phone")
     private String phone;
 
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "checkin_time")
-    private String checkinTime;
+    private Date checkinTime;
 
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "checkout_time")
-    private String checkoutTime;
+    private Date checkoutTime;
 
     @Column(name = "duration")
     private String duration;
