@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface VisitorService {
 
-    Long addVisitor(Visitor Visitor);
+    int addVisitor(Visitor Visitor);
 
     void updateVisitor(Visitor Visitor);
 

@@ -1,9 +1,14 @@
 package repository.entities;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 @Table(name = "visitor_table")
+@ToString @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class Visitor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,11 +24,13 @@ public class Visitor {
     @Column(name = "phone")
     private String phone;
 
+//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "checkin_time")
-    private Date checkinTime;
+    private String checkinTime;
 
+//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "checkout_time")
-    private Date checkoutTime;
+    private String checkoutTime;
 
     @Column(name = "duration")
     private String duration;
