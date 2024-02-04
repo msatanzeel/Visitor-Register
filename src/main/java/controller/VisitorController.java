@@ -51,19 +51,30 @@ public class VisitorController {
     @PutMapping(value = "/updateVisitor", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateVisitor(Model model, @RequestBody Visitor visitor) {
         System.out.println("Updating the visitor information for visitor: " + visitor);
-        Boolean updateSuccessful = true; visitorServiceImpl.updateVisitor(visitor);
         Map<String, Object> response = new HashMap<>();
 
-        if(updateSuccessful) {
-            response.put("message", "Visitor info has been updated successfully");
-            response.put("status", HttpStatus.OK.value());
-            return ResponseEntity.status(HttpStatus.OK).body(response);
+        try {
+            Boolean updateSuccessful = visitorServiceImpl.updateVisitor(visitor);
+
+            if(updateSuccessful) {
+                response.put("message", "Visitor info has been updated successfully");
+                response.put("status", HttpStatus.OK.value());
+                return ResponseEntity.status(HttpStatus.OK).body(response);
+            }
+            else {
+                response.put("status", HttpStatus.NOT_FOUND.value());
+                response.put("message", "Unable to update the visitor info as no such user exists");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
         }
-        else {
-            response.put("status", HttpStatus.NOT_FOUND.value());
-            response.put("message", "Unable to update the visitor info as no such user exists");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        catch (Exception e) {
+            System.out.println(e.getStackTrace());
+            response.put("status", "failed");
+            response.put("message", "Unable to save Visitor information");
+            response.put("cause", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
+
     }
 
     public @ResponseBody ResponseEntity deleteVisitor(Model model, @RequestBody Map<String, Object> apiBody) {

@@ -3,6 +3,7 @@ package repository.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import repository.entities.Visitor;
 
 import java.util.List;
@@ -21,11 +22,13 @@ public class VisitorDaoImpl implements VisitorDao{
     }
 
     @Override
+    @Transactional
     public void addVisitor(Visitor visitor) {
         hibernateTemplate.save(visitor);
     }
 
     @Override
+    @Transactional
     public void updateVisitor(Visitor visitor) {
         hibernateTemplate.update(visitor);
     }

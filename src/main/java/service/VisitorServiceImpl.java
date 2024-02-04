@@ -29,7 +29,8 @@ public class VisitorServiceImpl implements VisitorService{
     }
 
     @Override
-    public Boolean updateVisitor(Visitor Visitor) {
+    public Boolean updateVisitor(Visitor visitor) {
+        visitorDaoImpl.updateVisitor(visitor);
         return true;
     }
 
