@@ -2,13 +2,23 @@ package repository.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
+import org.springframework.stereotype.Repository;
 import repository.entities.Visitor;
 
 import java.util.List;
 
+@Repository
 public class VisitorDaoImpl implements VisitorDao{
-    @Autowired
     private HibernateTemplate hibernateTemplate;
+
+    public HibernateTemplate getHibernateTemplate() {
+        return hibernateTemplate;
+    }
+
+    @Autowired
+    public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
+        this.hibernateTemplate = hibernateTemplate;
+    }
 
     @Override
     public void addVisitor(Visitor visitor) {

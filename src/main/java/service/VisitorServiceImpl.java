@@ -1,6 +1,7 @@
 package service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import repository.dao.VisitorDao;
 import repository.entities.Visitor;
 import repository.entities.VisitorType;
@@ -8,12 +9,22 @@ import repository.entities.VisitorType;
 import java.time.LocalDate;
 import java.util.List;
 
+@Service
 public class VisitorServiceImpl implements VisitorService{
-    @Autowired
     private VisitorDao visitorDaoImpl;
 
+    public VisitorDao getVisitorDaoImpl() {
+        return visitorDaoImpl;
+    }
+
+    @Autowired
+    public void setVisitorDaoImpl(VisitorDao visitorDaoImpl) {
+        this.visitorDaoImpl = visitorDaoImpl;
+    }
+
     @Override
-    public int addVisitor(Visitor Visitor) {
+    public Integer addVisitor(Visitor visitor) {
+        visitorDaoImpl.addVisitor(visitor);
         return 0;
     }
 
@@ -23,8 +34,8 @@ public class VisitorServiceImpl implements VisitorService{
     }
 
     @Override
-    public void deleteVisitor(int visitorId) {
-
+    public Boolean deleteVisitor(Integer visitorId) {
+        return true;
     }
 
     @Override
@@ -33,7 +44,7 @@ public class VisitorServiceImpl implements VisitorService{
     }
 
     @Override
-    public Visitor getVisitorById(int visitorId) {
+    public Visitor getVisitorById(Integer visitorId) {
         return null;
     }
 

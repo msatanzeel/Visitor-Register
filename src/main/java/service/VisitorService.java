@@ -8,15 +8,15 @@ import java.util.List;
 
 public interface VisitorService {
 
-    int addVisitor(Visitor Visitor);
+    Integer addVisitor(Visitor Visitor);
 
     Boolean updateVisitor(Visitor Visitor);
 
-    void deleteVisitor(int visitorId);
+    Boolean deleteVisitor(Integer visitorId);
 
     List<Visitor> getAllVisitors();
 
-    Visitor getVisitorById(int visitorId);
+    Visitor getVisitorById(Integer visitorId);
 
     List<Visitor> getVisitorsByDateRange(LocalDate startDate, LocalDate endDate);
 
