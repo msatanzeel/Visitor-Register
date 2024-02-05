@@ -30,12 +30,19 @@ public class VisitorServiceImpl implements VisitorService{
 
     @Override
     public Boolean updateVisitor(Visitor visitor) {
+        if(visitorDaoImpl.getVisitorById(visitor.getVisitorID()) == null) {
+            return false;
+        }
         visitorDaoImpl.updateVisitor(visitor);
         return true;
     }
 
     @Override
     public Boolean deleteVisitor(Integer visitorId) {
+        if(visitorDaoImpl.getVisitorById(visitorId) == null) {
+            return false;
+        }
+        visitorDaoImpl.deleteVisitor(visitorId);
         return true;
     }
 

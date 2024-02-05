@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Controller
+@RequestMapping(value = "/visitors")
 public class VisitorController {
 
     private VisitorService visitorServiceImpl;
@@ -29,8 +30,8 @@ public class VisitorController {
         this.visitorServiceImpl = visitorServiceImpl;
     }
 
-    @RequestMapping(value = "/addVisitor", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, Object>> addVisitor(Model model, @RequestBody Visitor visitor) {
+    @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> addVisitor(@RequestBody Visitor visitor) {
         Map<String, Object> response = new HashMap<>();
         System.out.println("The visitor information is as follows: " + visitor);
         try {
@@ -48,12 +49,13 @@ public class VisitorController {
         }
     }
 
-    @PutMapping(value = "/updateVisitor", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity updateVisitor(Model model, @RequestBody Visitor visitor) {
+    @PutMapping(value = "/{visitorId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity updateVisitor(@RequestBody Visitor visitor, @PathVariable("visitorId") String visitorId) {
         System.out.println("Updating the visitor information for visitor: " + visitor);
         Map<String, Object> response = new HashMap<>();
 
         try {
+            visitor.setVisitorID(Integer.parseInt(visitorId));
             Boolean updateSuccessful = visitorServiceImpl.updateVisitor(visitor);
 
             if(updateSuccessful) {
@@ -77,16 +79,17 @@ public class VisitorController {
 
     }
 
-    public @ResponseBody ResponseEntity deleteVisitor(Model model, @RequestBody Map<String, Object> apiBody) {
+    @DeleteMapping("/{visitorId}")
+    public @ResponseBody ResponseEntity deleteVisitor(@PathVariable("visitorId") String visitorId) {
         try{
             Map<String, Object> response = new HashMap<>();
-            System.out.println("Deleting the visitor information with userId" + apiBody.get("visitorId"));
-            visitorServiceImpl.deleteVisitor((Integer) apiBody.get("visitorId"));
+            System.out.println("Deleting the visitor information with userId" + visitorId);
+            visitorServiceImpl.deleteVisitor(Integer.valueOf(visitorId));
             response.put("message", "Visitor info has been updated successfully");
             response.put("status", HttpStatus.OK.value());
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting the visitor with userId " + apiBody.get("visitorId"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting the visitor with userId " + visitorId);
         }
     }
 

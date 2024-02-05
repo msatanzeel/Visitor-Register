@@ -34,11 +34,10 @@ public class VisitorDaoImpl implements VisitorDao{
     }
 
     @Override
+    @Transactional
     public void deleteVisitor(int visitorID) {
         Visitor visitor = getVisitorById(visitorID);
-        if (visitor != null) {
-            hibernateTemplate.delete(visitor);
-        }
+        hibernateTemplate.delete(visitor);
     }
 
     @Override
