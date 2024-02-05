@@ -30,8 +30,34 @@ public class VisitorController {
         this.visitorServiceImpl = visitorServiceImpl;
     }
 
+
+    @GetMapping(value = "/{visitorId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<Map<String,Object>> getVisitor(@PathVariable("visitorId") String visitorId) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Visitor visitor = visitorServiceImpl.getVisitorById(Integer.valueOf(visitorId));
+            if (visitor != null) {
+                response.put("data", visitor);
+                response.put("status", "success");
+                return ResponseEntity.ok(response);
+            }
+            else {
+                response.put("status", "failed");
+                response.put("message", "No user exists with the given user id");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+            response.put("status", "failed");
+            response.put("message", "Unable to get Visitor information");
+            response.put("cause", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, Object>> addVisitor(@RequestBody Visitor visitor) {
+    public @ResponseBody ResponseEntity<Map<String, Object>> addVisitor(@RequestBody Visitor visitor) {
         Map<String, Object> response = new HashMap<>();
         System.out.println("The visitor information is as follows: " + visitor);
         try {

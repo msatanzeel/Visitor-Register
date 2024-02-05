@@ -41,6 +41,7 @@ public class VisitorDaoImpl implements VisitorDao{
     }
 
     @Override
+    @Transactional
     public Visitor getVisitorById(int visitorID) {
         return hibernateTemplate.get(Visitor.class, visitorID);
     }

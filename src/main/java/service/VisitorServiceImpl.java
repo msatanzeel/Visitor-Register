@@ -53,7 +53,7 @@ public class VisitorServiceImpl implements VisitorService{
 
     @Override
     public Visitor getVisitorById(Integer visitorId) {
-        return null;
+        return visitorDaoImpl.getVisitorById(visitorId);
     }
 
     @Override
