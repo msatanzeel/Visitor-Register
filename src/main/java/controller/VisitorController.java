@@ -1,24 +1,25 @@
 package controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import repository.entities.Visitor;
 import service.VisitorService;
 
-import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
 
 @Controller
 @RequestMapping(value = "/visitors")
 public class VisitorController {
 
+    private static final Logger logger = LogManager.getLogger();
     private VisitorService visitorServiceImpl;
 
     public VisitorService getVisitorServiceImpl() {
@@ -34,6 +35,7 @@ public class VisitorController {
     @GetMapping(value = "/{visitorId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Map<String,Object>> getVisitor(@PathVariable("visitorId") String visitorId) {
         Map<String, Object> response = new HashMap<>();
+        logger.info("Entered the get visitor controller");
         try {
             Visitor visitor = visitorServiceImpl.getVisitorById(Integer.valueOf(visitorId));
             if (visitor != null) {
@@ -48,7 +50,7 @@ public class VisitorController {
             }
 
         } catch (Exception e) {
-            System.out.println(e.getStackTrace());
+            logger.error(e.getStackTrace());
             response.put("status", "failed");
             response.put("message", "Unable to get Visitor information");
             response.put("cause", e.getMessage());
@@ -59,7 +61,7 @@ public class VisitorController {
     @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Map<String, Object>> addVisitor(@RequestBody Visitor visitor) {
         Map<String, Object> response = new HashMap<>();
-        System.out.println("The visitor information is as follows: " + visitor);
+        logger.info("The visitor information is as follows: " + visitor);
         try {
             visitorServiceImpl.addVisitor(visitor);
             response.put("status", "success");
@@ -77,7 +79,7 @@ public class VisitorController {
 
     @PutMapping(value = "/{visitorId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateVisitor(@RequestBody Visitor visitor, @PathVariable("visitorId") String visitorId) {
-        System.out.println("Updating the visitor information for visitor: " + visitor);
+        logger.info("Updating the visitor information for visitor: " + visitor);
         Map<String, Object> response = new HashMap<>();
 
         try {
@@ -109,7 +111,7 @@ public class VisitorController {
     public @ResponseBody ResponseEntity deleteVisitor(@PathVariable("visitorId") String visitorId) {
         try{
             Map<String, Object> response = new HashMap<>();
-            System.out.println("Deleting the visitor information with userId" + visitorId);
+            logger.info("Deleting the visitor information with userId" + visitorId);
             visitorServiceImpl.deleteVisitor(Integer.valueOf(visitorId));
             response.put("message", "Visitor info has been updated successfully");
             response.put("status", HttpStatus.OK.value());
